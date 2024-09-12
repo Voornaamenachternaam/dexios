@@ -16,9 +16,9 @@ jobs:
     name: clippy (ubuntu-latest, stable)
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v4.1.7
 
-    - uses: actions-rs/toolchain@v1
+    - uses: actions-rs/toolchain@v1.0.6
       with:
         toolchain: stable
         override: true
@@ -34,7 +34,7 @@ jobs:
         key: ${{ runner.os }}-cargo-stable-${{ hashFiles('Cargo.lock') }}
 
     - name: Clippy
-      uses: actions-rs/cargo@v1
+      uses: actions-rs/cargo@v1.0.1
       with:
         command: clippy
         args: --no-deps
@@ -43,9 +43,9 @@ jobs:
     name: check (ubuntu-latest, stable)
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v4.1.7
 
-    - uses: actions-rs/toolchain@v1
+    - uses: actions-rs/toolchain@v1.0.6
       with:
         toolchain: stable
 
@@ -59,7 +59,7 @@ jobs:
         key: ${{ runner.os }}-cargo-stable-${{ hashFiles('Cargo.lock') }}
 
     - name: Check
-      uses: actions-rs/cargo@v1
+      uses: actions-rs/cargo@v1.0.1
       with:
         command: check
         args: --release
@@ -77,10 +77,10 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.1.7
 
       - name: Toolchain
-        uses: actions-rs/toolchain@v1
+        uses: actions-rs/toolchain@v1.0.6
         with:
           profile: minimal
           toolchain: ${{ matrix.rust }}
@@ -96,7 +96,7 @@ jobs:
           key: ${{ matrix.os }}-cargo-${{ matrix.rust }}-${{ hashFiles('Cargo.lock') }}
 
       - name: Build
-        uses: actions-rs/cargo@v1
+        uses: actions-rs/cargo@v1.0.1
         with:
           command: build
           args: --release
