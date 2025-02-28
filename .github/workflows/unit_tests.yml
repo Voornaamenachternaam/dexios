@@ -35,7 +35,7 @@ jobs:
           override: true
 
       - name: Restore cargo cache
-        uses: actions/cache@v4.2.1
+        uses: actions/cache@v4.2.2
         with:
           path: |
             ~/.cargo/registry
