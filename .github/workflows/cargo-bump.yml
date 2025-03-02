@@ -18,11 +18,16 @@ jobs:
 
       - name: Bump Cargo Versions Manually
         run: |
-          for package in $(find . -name "Cargo.toml"); do
-            echo "Bumping version in $package"
-            current_version=$(toml get --raw $package package.version)
-            new_version=$(echo $current_version | awk -F. '{print $1"."$2"."$3+1}')
-            toml set "$package" package.version "$new_version"
+          for folder in dexios dexios-gui dexios-core dexios-domain; do
+            cargo_toml="$folder/Cargo.toml"
+            if [ -f "$cargo_toml" ]; then
+              echo "Bumping version in $cargo_toml"
+              current_version=$(toml get --raw "$cargo_toml" package.version)
+              new_version=$(echo "$current_version" | awk -F. '{print $1"."$2"."$3+1}')
+              toml set "$cargo_toml" package.version "$new_version"
+            else
+              echo "Skipping $cargo_toml (file not found)"
+            fi
           done
 
       - name: Commit and Push Changes
@@ -30,5 +35,5 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
           git add .
-          git commit -m "Bump Cargo versions"
-          git push origin HEAD
+          git commit -m "Bump Cargo versions" || echo "No changes to commit"
+          git push origin HEAD || echo "No changes to push"
