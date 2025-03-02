@@ -20,7 +20,9 @@ jobs:
         run: |
           for package in $(find . -name "Cargo.toml"); do
             echo "Bumping version in $package"
-            toml set $package package.version $(toml get $package package.version | awk -F. '{print $1"."$2"."$3+1}')
+            current_version=$(toml get --raw $package package.version)
+            new_version=$(echo $current_version | awk -F. '{print $1"."$2"."$3+1}')
+            toml set "$package" package.version "$new_version"
           done
 
       - name: Commit and Push Changes
