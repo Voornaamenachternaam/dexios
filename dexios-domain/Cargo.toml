@@ -10,6 +10,7 @@ repository = "https://github.com/Voornaamenachternaam/dexios/tree/master/dexios-
 homepage = "https://github.com/Voornaamenachternaam/dexios"
 documentation = "https://docs.rs/dexios-domain/latest/dexios_domain/"
 readme = "README.md"
+rust-version = "1.83.0"
 authors = ["brxken128 <brxken128@tutanota.com"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
