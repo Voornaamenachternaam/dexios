@@ -6,3 +6,6 @@ members = [
     "dexios-core",
     "dexios-domain",
 ]
+
+[workspace.package]
+edition = "2021"
