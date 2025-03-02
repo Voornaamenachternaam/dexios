@@ -9,20 +9,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@main
         with:
           token: ${{ secrets.PAT }}  # Use a Personal Access Token to push changes
 
-      - name: Install Cargo Bump
-        run: cargo install cargo-bump || true  # Ensure cargo-bump is installed
+      - name: Install toml-cli (for version manipulation)
+        run: cargo install toml-cli || true
 
-      - name: Bump Cargo Version
-        run: cargo bump patch  # You can use 'major', 'minor', or 'patch'
+      - name: Bump Cargo Versions Manually
+        run: |
+          for package in $(find . -name "Cargo.toml"); do
+            echo "Bumping version in $package"
+            toml set $package package.version $(toml get $package package.version | awk -F. '{print $1"."$2"."$3+1}')
+          done
 
       - name: Commit and Push Changes
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
-          git add Cargo.toml Cargo.lock
-          git commit -m "Bump Cargo version"
+          git add .
+          git commit -m "Bump Cargo versions"
           git push origin HEAD
